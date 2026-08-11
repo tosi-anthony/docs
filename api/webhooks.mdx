@@ -40,7 +40,25 @@ curl -X POST https://api.jobdashboard.com/v1/webhooks \
 }
 ```
 
-Copy the `signing_secret` immediately — it is only returned at creation time and is used to verify incoming webhook signatures.
+<ResponseField name="id" type="string">
+  Unique identifier for the webhook endpoint.
+</ResponseField>
+
+<ResponseField name="url" type="string">
+  The HTTPS URL that Job Dashboard will deliver events to.
+</ResponseField>
+
+<ResponseField name="events" type="array">
+  The list of event types this endpoint is subscribed to.
+</ResponseField>
+
+<ResponseField name="signing_secret" type="string">
+  The secret used to verify webhook signatures. Copy this value immediately — it is only returned at creation time and cannot be retrieved again.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the webhook was registered.
+</ResponseField>
 
 ## Available events
 
@@ -169,7 +187,30 @@ curl https://api.jobdashboard.com/v1/webhooks \
   -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
 ```
 
-Returns an array of webhook objects (without the `signing_secret` field).
+**Response `200 OK`**
+
+<ResponseField name="data" type="array">
+  Array of webhook endpoint objects.
+
+  <Expandable title="Webhook object fields">
+    <ResponseField name="id" type="string">
+      Unique identifier for the webhook endpoint.
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      The HTTPS URL that Job Dashboard delivers events to.
+    </ResponseField>
+    <ResponseField name="events" type="array">
+      The list of event types this endpoint is subscribed to.
+    </ResponseField>
+    <ResponseField name="created_at" type="string">
+      ISO 8601 timestamp of when the webhook was registered.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<Note>
+  The `signing_secret` is not included in list responses. Store it securely at the time you create the webhook.
+</Note>
 
 ## Deleting a webhook endpoint
 

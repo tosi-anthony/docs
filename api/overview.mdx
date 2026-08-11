@@ -10,7 +10,7 @@ The Job Dashboard REST API gives you programmatic access to every part of your h
 
 All API requests are made to the following base URL. The version number (`v1`) is embedded directly in the path so you always know exactly which contract your integration is targeting.
 
-```
+```bash
 https://api.jobdashboard.com/v1
 ```
 
@@ -30,7 +30,7 @@ curl https://api.jobdashboard.com/v1/jobs \
 
 Authenticate every request by passing your API key as a Bearer token in the `Authorization` header:
 
-```
+```http
 Authorization: Bearer YOUR_API_KEY
 ```
 
@@ -105,5 +105,8 @@ The `code` field is a machine-readable string you can match in your code (for ex
   </Card>
   <Card title="Applications API" icon="file-lines" href="/api/applications">
     Move candidates through pipeline stages and log hiring decisions.
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/api/webhooks">
+    Receive real-time events when applications, candidates, or jobs change.
   </Card>
 </CardGroup>

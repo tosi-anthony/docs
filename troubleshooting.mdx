@@ -1,7 +1,7 @@
 ---
-title: "Troubleshoot Common Job Dashboard Issues"
+title: "Troubleshooting Login, Jobs, Pipeline, and API Issues"
 sidebarTitle: "Troubleshooting"
-description: "Solutions for common issues in Job Dashboard — login problems, job sync failures, missing notifications, and API errors."
+description: "Step-by-step solutions for common issues in Job Dashboard — login problems, job sync failures, missing notifications, and API errors."
 ---
 
 Most issues in Job Dashboard have a quick fix. This guide walks you through the most common problems our customers encounter and the exact steps to resolve them. Work through the relevant section below, and if the problem persists after following the steps, our support team is always ready to help.
@@ -148,7 +148,7 @@ Most issues in Job Dashboard have a quick fix. This guide walks you through the 
   1. Confirm you're passing the key as a **Bearer token** in the `Authorization` header — not as a query parameter or in the request body:
 
   ```bash
-  curl -X GET https://api.jobdashboard.com/v1/jobs \
+  curl -X GET https://api.jobdashboard.com/api/jobs \
     -H "Authorization: Bearer YOUR_API_KEY" \
     -H "Content-Type: application/json"
   ```
@@ -175,7 +175,7 @@ Most issues in Job Dashboard have a quick fix. This guide walks you through the 
 
   1. Read the `Retry-After` header in the 429 response — it tells you exactly how many seconds to wait before retrying:
 
-  ```bash
+  ```http
   HTTP/1.1 429 Too Many Requests
   Retry-After: 15
   X-RateLimit-Limit: 120
@@ -200,7 +200,7 @@ Most issues in Job Dashboard have a quick fix. This guide walks you through the 
   3. Make sure your server responds with a `200 OK` within **10 seconds**. If your handler takes longer, offload processing to a background queue and return `200` immediately.
   4. Confirm the webhook is subscribed to the correct event(s). For example, if you expect to receive events when a candidate moves pipeline stages, the `candidate.stage_changed` event must be checked.
   5. Test delivery manually by clicking **Send Test Event** on the webhook configuration page and checking your server logs for the incoming request.
-  6. If your endpoint is protected by a firewall, whitelist Job Dashboard's outbound IP ranges, which are listed at [docs.jobdashboard.com/api-reference/webhooks](https://docs.jobdashboard.com/api-reference/webhooks).
+  6. If your endpoint is protected by a firewall, whitelist Job Dashboard's outbound IP ranges, which are listed in the [Webhooks API reference](/api/webhooks).
 
   ```json
   {

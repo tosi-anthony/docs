@@ -4,7 +4,7 @@ sidebarTitle: "Applications API"
 description: "Retrieve and update job applications via the API. Move candidates through pipeline stages and log decisions programmatically."
 ---
 
-The Applications API lets you read and update the applications that link candidates to job postings. Use it to reflect stage changes made in an external ATS, automate pipeline movements based on assessment scores, or build reporting tools that aggregate application data across all your open roles. Applications are created when a candidate applies through your careers page or via the Candidates API — you manage their lifecycle here.
+The Applications API lets you create, read, and update the applications that link candidates to job postings. Use it to programmatically submit applications on behalf of candidates, reflect stage changes made in an external ATS, automate pipeline movements based on assessment scores, or build reporting tools that aggregate application data across all your open roles.
 
 ---
 
@@ -74,6 +74,71 @@ curl "https://api.jobdashboard.com/v1/applications?job_id=job_01HXYZ9876WXYZ&sta
 
 ---
 
+## Create an application
+
+Link an existing candidate to a job posting, creating a new application in the `applied` stage. Use this endpoint to submit applications programmatically — for example, from a custom careers portal or an external sourcing tool.
+
+<ParamField body="job_id" type="string" required>
+  The ID of the job to apply to.
+</ParamField>
+
+<ParamField body="candidate_id" type="string" required>
+  The ID of the candidate being linked to this job.
+</ParamField>
+
+<ParamField body="cover_note" type="string">
+  An optional cover note or message from the candidate. Plain text only.
+</ParamField>
+
+```bash
+curl -X POST https://api.jobdashboard.com/v1/applications \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "job_id": "job_01HXYZ9876WXYZ",
+    "candidate_id": "cand_01HXYZ5678ABCD",
+    "cover_note": "I am excited to apply for this role and believe my background is a strong match."
+  }'
+```
+
+**Response `201 Created`**
+
+Returns the newly created application object.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the application.
+</ResponseField>
+
+<ResponseField name="job_id" type="string">
+  ID of the job this application is associated with.
+</ResponseField>
+
+<ResponseField name="candidate_id" type="string">
+  ID of the candidate who applied.
+</ResponseField>
+
+<ResponseField name="stage" type="string">
+  Initial pipeline stage. Newly created applications always start at `"applied"`.
+</ResponseField>
+
+<ResponseField name="cover_note" type="string">
+  The cover note provided at creation time, or `null` if none was supplied.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the application was created.
+</ResponseField>
+
+<ResponseField name="updated_at" type="string">
+  ISO 8601 timestamp of the most recent update.
+</ResponseField>
+
+<Note>
+  A candidate can only have one active application per job. Attempting to create a duplicate returns a `409 Conflict` response. To advance an existing application, use [Update application status](#update-application-status) instead.
+</Note>
+
+---
+
 ## Get an application
 
 Retrieve the full details of a single application by its unique ID.
@@ -89,7 +154,7 @@ Returns the application object. See [List all applications](#list-all-applicatio
 
 ---
 
-## Update application stage
+## Update application status
 
 Move an application to a new pipeline stage. This is the primary action you take to advance or reject a candidate during the hiring process. Stage changes are recorded in the application's audit history and can trigger webhook events if configured.
 
@@ -106,7 +171,7 @@ Move an application to a new pipeline stage. This is the primary action you take
 </ParamField>
 
 ```bash
-curl -X PUT https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB/stage \
+curl -X PUT https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB/status \
   -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{
@@ -117,7 +182,7 @@ curl -X PUT https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB/stag
 To reject a candidate with a reason:
 
 ```bash
-curl -X PUT https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB/stage \
+curl -X PUT https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB/status \
   -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
   -H "Content-Type: application/json" \
   -d '{

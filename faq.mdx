@@ -1,7 +1,7 @@
 ---
-title: "Frequently Asked Questions About Job Dashboard"
+title: "Job Dashboard: Frequently Asked Questions and Answers"
 sidebarTitle: "FAQ"
-description: "Answers to the most common questions about Job Dashboard — plans, job postings, candidate data, integrations, and the API."
+description: "Find answers to the most common questions about Job Dashboard — covering plans, job postings, candidate data, integrations, and the API."
 ---
 
 Job Dashboard is built to make hiring faster and less stressful — but we know questions come up along the way. Below you'll find answers to the things our customers ask most often. If you don't see what you're looking for, reach out to our support team at [support@jobdashboard.com](mailto:support@jobdashboard.com) and we'll get back to you within one business day.
@@ -124,10 +124,10 @@ Job Dashboard is built to make hiring faster and less stressful — but we know 
 
   1. Go to **Settings → API Keys** and generate a new key.
   2. Pass the key as a Bearer token in the `Authorization` header of every request.
-  3. Read the full [API Reference](https://docs.jobdashboard.com/api-reference) for available endpoints and examples.
+  3. Read the full [API Reference](/api/overview) for available endpoints and examples.
 
   ```bash
-  curl -X GET https://api.jobdashboard.com/v1/jobs \
+  curl -X GET https://api.jobdashboard.com/api/jobs \
     -H "Authorization: Bearer YOUR_API_KEY" \
     -H "Content-Type: application/json"
   ```

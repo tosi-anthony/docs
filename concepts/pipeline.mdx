@@ -1,5 +1,5 @@
 ---
-title: "Hiring Pipeline: Stages and Workflow"
+title: "Hiring Pipeline in Job Dashboard: Stages and Workflow"
 sidebarTitle: "Pipeline"
 description: "The hiring pipeline in Job Dashboard tracks each application through customizable stages, from first contact to offer. Learn how to configure and use it."
 ---
@@ -35,15 +35,15 @@ You can move an application to a different stage in two ways:
 
 **In the UI** — Open the Pipeline view for a job. Each stage is displayed as a column. Drag an application card from one column and drop it onto the target stage. The move is saved instantly.
 
-**Via the API** — Send a `PATCH` request to the application endpoint and update the `stage_id` field:
+**Via the API** — Send a `PUT` request to the application status endpoint and set the `status` field to the target stage name:
 
 ```bash
-PATCH /v1/applications/{application_id}
+PUT /api/applications/{id}/status
 Content-Type: application/json
 Authorization: Bearer YOUR_API_KEY
 
 {
-  "stage_id": "stage_offer"
+  "status": "offer"
 }
 ```
 
