@@ -1,0 +1,219 @@
+---
+title: "Troubleshoot Common Job Dashboard Issues"
+sidebarTitle: "Troubleshooting"
+description: "Solutions for common issues in Job Dashboard — login problems, job sync failures, missing notifications, and API errors."
+---
+
+Most issues in Job Dashboard have a quick fix. This guide walks you through the most common problems our customers encounter and the exact steps to resolve them. Work through the relevant section below, and if the problem persists after following the steps, our support team is always ready to help.
+
+<Note>
+  If you've tried the steps on this page and the issue is still unresolved, email us at [support@jobdashboard.com](mailto:support@jobdashboard.com) with a description of the problem and any error messages you see. We respond within one business day, and urgent issues are escalated within a few hours.
+</Note>
+
+## Login & Access
+
+<Accordion title="Can't log in / password reset email not arriving">
+  **Likely cause:** The reset email was filtered by your spam folder, your email provider delayed delivery, or the address you entered doesn't match the one on your account.
+
+  **Steps to resolve:**
+
+  1. Check your **Spam**, **Junk**, and **Promotions** folders for an email from `noreply@jobdashboard.com`.
+  2. Add `noreply@jobdashboard.com` to your contacts or safe-sender list, then request a new reset email.
+  3. Make sure you're using the exact email address you signed up with — try any work aliases or alternative addresses you may have used.
+  4. If your company uses a corporate email security gateway (e.g., Mimecast, Proofpoint), ask your IT team to whitelist `@jobdashboard.com` and retry.
+  5. Wait 5 minutes — some providers throttle transactional email delivery.
+
+  If none of the above works, contact [support@jobdashboard.com](mailto:support@jobdashboard.com) with the email address on your account and we'll manually verify and reset it for you.
+
+  <Tip>Reset links expire after **60 minutes**. If you waited too long before clicking, request a fresh link from the login page.</Tip>
+</Accordion>
+
+<Accordion title="Two-factor authentication issues">
+  **Likely cause:** The one-time code has expired, your authenticator app's clock is out of sync, or you no longer have access to the device used for 2FA setup.
+
+  **Steps to resolve:**
+
+  1. **Code not working:** TOTP codes (Google Authenticator, Authy, etc.) are time-sensitive. Make sure your device's date and time are set to sync automatically. On iOS, go to **Settings → General → Date & Time → Set Automatically**. On Android, go to **Settings → General Management → Date and Time → Automatic date and time**.
+  2. **Lost access to your authenticator app:** Use one of the backup codes you were shown when you first enabled 2FA. If you saved them, enter a backup code on the 2FA prompt screen.
+  3. **No backup codes and no device access:** Email [support@jobdashboard.com](mailto:support@jobdashboard.com) from the address on your account. Our team will verify your identity and disable 2FA so you can log in and reconfigure it.
+
+  <Warning>Job Dashboard support will never ask for your password or a live 2FA code over email or chat. If someone claiming to be support requests these, do not provide them.</Warning>
+</Accordion>
+
+<Accordion title="Team member can't accept invite">
+  **Likely cause:** The invitation link has expired (links are valid for 48 hours), the invite email was filtered as spam, or the invitee is trying to sign up with a different email address than the one the invite was sent to.
+
+  **Steps to resolve:**
+
+  1. Ask the invitee to check their **Spam** and **Junk** folders for an email from `noreply@jobdashboard.com`.
+  2. Confirm the invite was sent to the correct email address under **Settings → Team Members → Pending Invites**.
+  3. If the link has expired, click **Resend** next to the pending invite — this generates a fresh 48-hour link.
+  4. Revoke the old invite and send a new one if the wrong email was used.
+  5. Make sure the invitee is clicking **Accept Invite** in the email, not just navigating to the login page — they need to follow the link to register their account in your workspace.
+
+  <Note>A user can only belong to one Job Dashboard organization per email address. If the invitee already has an account under a different organization, contact support to arrange a workspace transfer.</Note>
+</Accordion>
+
+## Jobs & Publishing
+
+<Accordion title="Job not appearing on Indeed / LinkedIn after publishing">
+  **Likely cause:** The distribution sync is still in progress, there was an authentication error with the job board integration, or the job was flagged by the board's quality review.
+
+  **Steps to resolve:**
+
+  1. Go to **Jobs → [Your Job] → Distribution** and check the status badge next to each board. A yellow **Pending** badge means the sync is still in progress; a red **Error** badge means something went wrong.
+  2. If you see an **Error** badge, click it to read the error message. Common errors include expired API credentials or missing required fields (salary, location, employment type).
+  3. Re-authenticate your job board connection under **Settings → Integrations** if credentials have expired.
+  4. Make sure your job posting includes all fields required by the board. Indeed, for example, requires a job location or a clear remote-work designation.
+  5. Click **Retry Sync** on the Distribution page to push the listing again.
+  6. Allow up to **24 hours** before concluding the job isn't appearing — see the [FAQ](/faq) for typical sync times per board.
+
+  <Tip>Google for Jobs is populated automatically from structured data on your job's public URL and depends on Google's crawl schedule, which can take 1–3 days. You cannot manually trigger a Google crawl.</Tip>
+</Accordion>
+
+<Accordion title="Job shows wrong information on a job board">
+  **Likely cause:** The job board cached an earlier version of your listing and hasn't picked up your edits yet, or the field mapping between Job Dashboard and the board is misconfigured.
+
+  **Steps to resolve:**
+
+  1. Edit and save your job in Job Dashboard, then go to **Jobs → [Your Job] → Distribution** and click **Resync All Boards** to push the latest version.
+  2. Allow up to **6 hours** for the updated version to propagate, as each board has its own refresh cadence.
+  3. If the wrong information persists after 24 hours, check the **Field Mapping** settings under **Settings → Integrations → [Board Name]** to make sure the correct Job Dashboard fields are mapped to the board's expected fields.
+  4. For LinkedIn-specific display issues (wrong company logo, wrong location), verify that your Company Page on LinkedIn is correctly linked under **Settings → Integrations → LinkedIn**.
+
+  If the board is still displaying incorrect data after 48 hours, contact [support@jobdashboard.com](mailto:support@jobdashboard.com) with the job ID and the affected board.
+</Accordion>
+
+<Accordion title="Can't delete a published job">
+  **Likely cause:** The job is still live on one or more external job boards, which must be unpublished before the record can be deleted. Alternatively, your user role may not have deletion permissions.
+
+  **Steps to resolve:**
+
+  1. First, **close** the job rather than trying to delete it directly. Go to **Jobs → [Your Job] → Settings** and click **Close Job**. This signals all connected boards to remove the listing.
+  2. Wait for all distribution statuses to show **Removed** or **Closed** on the **Distribution** tab (this can take up to 24 hours for some boards).
+  3. Once the job is closed, go to **Jobs → Archived**, find the job, click **⋯**, and select **Delete Permanently**.
+  4. If you don't see the **Delete Permanently** option, your role may not include deletion permissions. Ask an **Admin** on your account to perform the deletion.
+
+  <Warning>Permanently deleting a job removes all associated applications, candidate notes, and pipeline history. This action cannot be undone. Consider archiving instead if you may need to reference the data later.</Warning>
+</Accordion>
+
+## Applications & Pipeline
+
+<Accordion title="Applications not appearing in the pipeline">
+  **Likely cause:** Applications are flowing into a different job posting (e.g., a duplicate), a pipeline filter is hiding them, or an integration that feeds applications (like a careers-page embed) has become disconnected.
+
+  **Steps to resolve:**
+
+  1. Check whether active filters are set in the **Pipeline** view. Click **Clear Filters** in the top bar to reset any active filters and see all applicants.
+  2. Confirm that your careers-page application form is connected to the correct job. Go to **Jobs → [Your Job] → Careers Page** and verify the embed code or hosted link points to this specific job.
+  3. If you use an external application form (Typeform, Google Forms, Zapier, etc.), check that the integration is still active under **Settings → Integrations** and that the mapping routes submissions to the correct job.
+  4. Check your **Inbox** under the Candidates section — some application sources land there first and require manual assignment to a job.
+  5. Look in **Jobs → [Your Job] → Activity Log** to see whether applications were received and if any automation rules moved or filtered them.
+</Accordion>
+
+<Accordion title="Email sent from an application not delivered">
+  **Likely cause:** Your sending domain hasn't been verified with Job Dashboard, the candidate's email address is invalid or unsubscribed, or the email was caught by the candidate's spam filter.
+
+  **Steps to resolve:**
+
+  1. Go to **Settings → Email & Notifications → Sending Domain** and confirm your domain is verified (green checkmark). If it shows **Unverified**, follow the DNS setup instructions to add the required SPF, DKIM, and DMARC records. Allow up to 24 hours for DNS propagation.
+  2. Check the email's delivery status by opening the candidate's profile and clicking the sent email in the **Activity** timeline. A **Bounced** status means the address is invalid; a **Spam** status means it was filtered on the recipient's side.
+  3. For bounced addresses, update the candidate's email and resend.
+  4. If emails go out from the default `@mail.jobdashboard.com` domain instead of your own, complete domain verification first — candidates are far more likely to open email from your own domain.
+
+  <Note>Candidates who click **Unsubscribe** in any email are automatically suppressed. You cannot send them further emails from Job Dashboard without them re-opting in.</Note>
+</Accordion>
+
+<Accordion title="Stage automations not triggering">
+  **Likely cause:** The automation rule is paused, the trigger condition doesn't match the action that occurred, or the automation was created after the candidates it should have affected were already in that stage.
+
+  **Steps to resolve:**
+
+  1. Go to **Pipeline → Automations** and check that the relevant automation shows **Active** (not **Paused**). Click the toggle to re-enable it if needed.
+  2. Open the automation and review the **Trigger** condition carefully — for example, an automation set to fire "When a candidate enters the Phone Screen stage" will not fire if a candidate is manually edited into that stage via bulk update (only via drag-and-drop or direct card move triggers it).
+  3. Check the **Automation Log** (click **View Log** next to the automation) to see whether the rule fired and, if so, whether the associated action encountered an error (e.g., sending to an invalid email template).
+  4. Re-save the automation — sometimes a re-save resolves a stale configuration state.
+  5. Test the automation with a dummy candidate by moving them into the trigger stage and watching the log in real time.
+
+  <Tip>Automations only apply to candidates who enter a stage **after** the automation is created. They are never retroactively applied to candidates already in that stage.</Tip>
+</Accordion>
+
+## API
+
+<Accordion title="401 Unauthorized — API key invalid or missing">
+  **Likely cause:** The API key was not included in the request, was included incorrectly, has been revoked, or belongs to a user whose account no longer has API access.
+
+  **Steps to resolve:**
+
+  1. Confirm you're passing the key as a **Bearer token** in the `Authorization` header — not as a query parameter or in the request body:
+
+  ```bash
+  curl -X GET https://api.jobdashboard.com/v1/jobs \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json"
+  ```
+
+  2. Double-check the key for leading or trailing whitespace — copy it fresh from **Settings → API Keys** rather than from a document where it may have been reformatted.
+  3. Verify the key hasn't been revoked. Revoked keys show a **Revoked** label in **Settings → API Keys**. Generate a new key if needed.
+  4. Confirm the account owner still has an active Pro or Enterprise plan — API access is disabled on the Starter plan.
+  5. Check that the key has the correct **scopes** for the endpoint you're calling. Read-only keys cannot write data.
+
+  <Warning>Never commit API keys to version control or include them in client-side code. Store them as environment variables and rotate them immediately if you suspect a leak.</Warning>
+</Accordion>
+
+<Accordion title="429 Too Many Requests — rate limit hit">
+  **Likely cause:** Your integration is sending more requests per minute than your plan allows, or a script is running a tight loop without backoff logic.
+
+  **Rate limits by plan:**
+
+  | Plan       | Requests per minute |
+  |------------|---------------------|
+  | Pro        | 120                 |
+  | Enterprise | 600 (configurable)  |
+
+  **Steps to resolve:**
+
+  1. Read the `Retry-After` header in the 429 response — it tells you exactly how many seconds to wait before retrying:
+
+  ```bash
+  HTTP/1.1 429 Too Many Requests
+  Retry-After: 15
+  X-RateLimit-Limit: 120
+  X-RateLimit-Remaining: 0
+  X-RateLimit-Reset: 1714500000
+  ```
+
+  2. Implement **exponential backoff** in your client code. Start with a 1-second delay, then double it on each successive 429 (e.g., 1s → 2s → 4s → 8s) up to a maximum of 60 seconds.
+  3. Cache responses where possible to reduce repeat calls — for example, job listings don't need to be fetched more than once per minute.
+  4. If your use case genuinely requires a higher rate limit, contact [support@jobdashboard.com](mailto:support@jobdashboard.com) to discuss an Enterprise plan with elevated limits.
+
+  <Tip>Use the `X-RateLimit-Remaining` header in every response to monitor your remaining quota in real time and slow down proactively before hitting zero.</Tip>
+</Accordion>
+
+<Accordion title="Webhooks not firing">
+  **Likely cause:** The webhook endpoint URL is incorrect or unreachable from the public internet, the endpoint is returning a non-2xx response, or the webhook is configured for the wrong event type.
+
+  **Steps to resolve:**
+
+  1. Go to **Settings → Webhooks** and confirm the endpoint URL is correct and publicly reachable (not `localhost` or an internal IP).
+  2. Check the **Delivery Log** next to your webhook — it shows every attempted delivery, the HTTP status code your server returned, and the response body. A `5xx` status from your server causes Job Dashboard to retry up to 5 times with exponential backoff.
+  3. Make sure your server responds with a `200 OK` within **10 seconds**. If your handler takes longer, offload processing to a background queue and return `200` immediately.
+  4. Confirm the webhook is subscribed to the correct event(s). For example, if you expect to receive events when a candidate moves pipeline stages, the `candidate.stage_changed` event must be checked.
+  5. Test delivery manually by clicking **Send Test Event** on the webhook configuration page and checking your server logs for the incoming request.
+  6. If your endpoint is protected by a firewall, whitelist Job Dashboard's outbound IP ranges, which are listed at [docs.jobdashboard.com/api-reference/webhooks](https://docs.jobdashboard.com/api-reference/webhooks).
+
+  ```json
+  {
+    "event": "candidate.stage_changed",
+    "timestamp": "2024-05-01T10:23:00Z",
+    "data": {
+      "candidate_id": "cand_abc123",
+      "job_id": "job_xyz789",
+      "from_stage": "Applied",
+      "to_stage": "Phone Screen"
+    }
+  }
+  ```
+
+  <Note>Job Dashboard retries failed webhook deliveries up to **5 times** over 24 hours. After 5 failures, the webhook is automatically disabled and you'll receive an alert email. Re-enable it under **Settings → Webhooks** once your endpoint is fixed.</Note>
+</Accordion>

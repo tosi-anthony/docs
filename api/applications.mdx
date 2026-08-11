@@ -1,0 +1,157 @@
+---
+title: "REST API Endpoints for Applications"
+sidebarTitle: "Applications API"
+description: "Retrieve and update job applications via the API. Move candidates through pipeline stages and log decisions programmatically."
+---
+
+The Applications API lets you read and update the applications that link candidates to job postings. Use it to reflect stage changes made in an external ATS, automate pipeline movements based on assessment scores, or build reporting tools that aggregate application data across all your open roles. Applications are created when a candidate applies through your careers page or via the Candidates API — you manage their lifecycle here.
+
+---
+
+## List all applications
+
+Retrieve a paginated list of applications, optionally filtered by job, candidate, or pipeline stage.
+
+<ParamField query="job_id" type="string">
+  Return only applications linked to this job ID.
+</ParamField>
+
+<ParamField query="candidate_id" type="string">
+  Return only applications linked to this candidate ID.
+</ParamField>
+
+<ParamField query="stage" type="string">
+  Filter by pipeline stage name (e.g. `"phone_screen"`, `"technical_interview"`, `"offer"`).
+</ParamField>
+
+<ParamField query="limit" type="integer" default="20">
+  Number of results to return per page. Maximum: `100`.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+  Pagination cursor from the previous response's `next_cursor` field. Omit on the first request.
+</ParamField>
+
+```bash
+curl "https://api.jobdashboard.com/v1/applications?job_id=job_01HXYZ9876WXYZ&stage=phone_screen" \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+**Response `200 OK`**
+
+<ResponseField name="data" type="array">
+  Array of application objects.
+
+  <Expandable title="Application object fields">
+    <ResponseField name="id" type="string">
+      Unique identifier for the application.
+    </ResponseField>
+    <ResponseField name="job_id" type="string">
+      ID of the job this application is associated with.
+    </ResponseField>
+    <ResponseField name="candidate_id" type="string">
+      ID of the candidate who applied.
+    </ResponseField>
+    <ResponseField name="stage" type="string">
+      Current pipeline stage of the application (e.g. `"applied"`, `"phone_screen"`, `"offer"`, `"rejected"`).
+    </ResponseField>
+    <ResponseField name="created_at" type="string">
+      ISO 8601 timestamp of when the application was submitted.
+    </ResponseField>
+    <ResponseField name="updated_at" type="string">
+      ISO 8601 timestamp of the most recent update (e.g. a stage change).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="next_cursor" type="string">
+  Cursor to pass as the `cursor` parameter on your next request. `null` when no further pages exist.
+</ResponseField>
+
+<ResponseField name="has_more" type="boolean">
+  `true` if additional pages of results exist beyond this response.
+</ResponseField>
+
+---
+
+## Get an application
+
+Retrieve the full details of a single application by its unique ID.
+
+```bash
+curl https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+**Response `200 OK`**
+
+Returns the application object. See [List all applications](#list-all-applications) above for the full schema. Returns `404 Not Found` if the application does not exist or belongs to a different account.
+
+---
+
+## Update application stage
+
+Move an application to a new pipeline stage. This is the primary action you take to advance or reject a candidate during the hiring process. Stage changes are recorded in the application's audit history and can trigger webhook events if configured.
+
+<ParamField path="id" type="string" required>
+  The ID of the application to update.
+</ParamField>
+
+<ParamField body="stage" type="string" required>
+  The name of the target pipeline stage. Must match one of the stages configured for the job's pipeline (e.g. `"phone_screen"`, `"technical_interview"`, `"offer"`, `"rejected"`).
+</ParamField>
+
+<ParamField body="reason" type="string">
+  An optional reason for the stage change. Particularly useful when moving a candidate to `"rejected"` — this text is stored in the application's audit log and may be included in candidate communications depending on your account settings.
+</ParamField>
+
+```bash
+curl -X PUT https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB/stage \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "stage": "technical_interview"
+  }'
+```
+
+To reject a candidate with a reason:
+
+```bash
+curl -X PUT https://api.jobdashboard.com/v1/applications/app_01HXYZ1122AABB/stage \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "stage": "rejected",
+    "reason": "Position filled by another candidate."
+  }'
+```
+
+**Response `200 OK`**
+
+<ResponseField name="id" type="string">
+  Unique identifier for the application.
+</ResponseField>
+
+<ResponseField name="job_id" type="string">
+  ID of the associated job.
+</ResponseField>
+
+<ResponseField name="candidate_id" type="string">
+  ID of the associated candidate.
+</ResponseField>
+
+<ResponseField name="stage" type="string">
+  The new pipeline stage, reflecting the update just made.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the application was originally submitted.
+</ResponseField>
+
+<ResponseField name="updated_at" type="string">
+  ISO 8601 timestamp of this stage change.
+</ResponseField>
+
+<Note>
+  If your account has automated candidate notifications enabled, moving an application to `"rejected"` or `"offer"` may trigger an email to the candidate. Review your notification settings in the Job Dashboard app before bulk-updating stages via the API.
+</Note>

@@ -1,0 +1,166 @@
+---
+title: "Frequently Asked Questions About Job Dashboard"
+sidebarTitle: "FAQ"
+description: "Answers to the most common questions about Job Dashboard — plans, job postings, candidate data, integrations, and the API."
+---
+
+Job Dashboard is built to make hiring faster and less stressful — but we know questions come up along the way. Below you'll find answers to the things our customers ask most often. If you don't see what you're looking for, reach out to our support team at [support@jobdashboard.com](mailto:support@jobdashboard.com) and we'll get back to you within one business day.
+
+## Getting Started
+
+<Accordion title="How do I sign up for Job Dashboard?">
+  Head to [jobdashboard.com/signup](https://jobdashboard.com/signup) and enter your work email address. You'll receive a confirmation email within a few minutes — click the link inside to verify your address and set your password. Once you're in, the setup wizard walks you through creating your company profile, adding your first job, and inviting teammates.
+
+  <Tip>Use your company email address (not a personal Gmail or Yahoo address) so that teammates can be matched to your organization automatically when they sign up.</Tip>
+</Accordion>
+
+<Accordion title="Can I try Job Dashboard for free?">
+  Yes. Every new account starts on a **14-day free trial** of the Pro plan — no credit card required. You get full access to every Pro feature during the trial, including unlimited job postings, all job board integrations, and the API. At the end of the trial you can choose a paid plan or downgrade to the free Starter tier, which supports up to 3 active jobs and 2 team members.
+</Accordion>
+
+<Accordion title="How do I invite my team?">
+  1. Open **Settings → Team Members** from the left-hand navigation.
+  2. Click **Invite Member**.
+  3. Enter your teammate's work email address and choose a role: **Admin**, **Recruiter**, or **Hiring Manager**.
+  4. Click **Send Invite**.
+
+  Your teammate will receive an invitation email with a link that expires in 48 hours. They click the link, set a password, and land directly in your company's workspace. You can resend or revoke pending invitations at any time from the same page.
+
+  <Note>Only users with the **Admin** role can invite new team members. If you don't see the **Invite Member** button, ask your account admin to send the invitation.</Note>
+</Accordion>
+
+## Jobs & Candidates
+
+<Accordion title="How many jobs can I post at once?">
+  The number of active job postings depends on your plan:
+
+  | Plan    | Active Jobs |
+  |---------|-------------|
+  | Starter | 3           |
+  | Growth  | 25          |
+  | Pro     | Unlimited   |
+  | Enterprise | Unlimited + custom workflows |
+
+  A job counts as "active" from the moment you publish it until you close or archive it. Draft jobs do not count against your limit. If you need to upgrade, go to **Settings → Billing** and select a new plan — changes take effect immediately.
+</Accordion>
+
+<Accordion title="Can I import candidates from a spreadsheet?">
+  Yes. Job Dashboard accepts CSV imports for bulk candidate uploads. To import candidates:
+
+  1. Go to the **Candidates** section and click **Import**.
+  2. Download the CSV template to see the required column headers.
+  3. Fill in your candidate data (name, email, phone, and the job they're applying for are required; all other fields are optional).
+  4. Upload the completed file and click **Preview Import**.
+  5. Review the parsed rows for any errors, then click **Confirm Import**.
+
+  Candidates imported this way are tagged as **Manually Added** so you can filter them separately from organic applicants. Supported file types are `.csv` and `.xlsx`.
+
+  <Warning>Duplicate detection runs on email address. If an imported candidate's email already exists in your account, the existing record is updated rather than duplicated.</Warning>
+</Accordion>
+
+<Accordion title="How do I duplicate a job posting?">
+  Duplicating a job is useful when you're hiring for the same role in multiple locations or want to reuse a well-crafted job description.
+
+  1. Go to **Jobs** and find the posting you want to copy.
+  2. Click the **⋯** (more options) menu to the right of the job title.
+  3. Select **Duplicate Job**.
+
+  A new draft is created with the same title, description, requirements, and pipeline stages. It does **not** copy over existing candidates or applications. Edit the draft as needed and publish when you're ready.
+</Accordion>
+
+<Accordion title="What happens to candidate data when I close a job?">
+  When you close a job, all associated candidates and their application data are preserved — nothing is deleted automatically. Closed jobs and their candidates move to the **Archived** view, which you can access at any time from **Jobs → Archived**.
+
+  You can still view candidate profiles, leave notes, download resumes, and export data from archived jobs. If you want to permanently delete candidate data (for example, to comply with a deletion request under GDPR or CCPA), you can do so individually from the candidate's profile or in bulk from **Settings → Data & Privacy**.
+
+  <Note>Re-opening a closed job restores it to active status along with all its candidate records.</Note>
+</Accordion>
+
+## Integrations
+
+<Accordion title="Which job boards does Job Dashboard support?">
+  Job Dashboard integrates natively with the following job boards and aggregators:
+
+  - **Indeed** (sponsored and organic)
+  - **LinkedIn Jobs** (free listings and LinkedIn Job Slots)
+  - **Glassdoor**
+  - **ZipRecruiter**
+  - **Google for Jobs** (automatic structured-data syndication)
+  - **Monster**
+  - **CareerBuilder**
+  - **Handshake** (for campus recruiting)
+
+  You can also post to any board that accepts an XML job feed by using the **Custom Feed** integration under **Settings → Integrations**. Enterprise customers have access to additional ATS and HRIS connectors including Workday, BambooHR, and Greenhouse.
+</Accordion>
+
+<Accordion title="How long does it take for a job to appear on Indeed or LinkedIn?">
+  Typical sync times after you publish a job are:
+
+  | Job Board | Typical Time to Appear |
+  |-----------|------------------------|
+  | Indeed    | 15 minutes – 4 hours   |
+  | LinkedIn  | 30 minutes – 6 hours   |
+  | Glassdoor | 1 – 24 hours           |
+  | ZipRecruiter | 30 minutes – 2 hours |
+  | Google for Jobs | 1 – 3 days (depends on Google's crawl schedule) |
+
+  These windows are controlled by each platform's crawl and indexing schedules, not by Job Dashboard. If a job hasn't appeared after 24 hours, check **Jobs → [Your Job] → Distribution** for any sync errors, then consult the troubleshooting guide.
+
+  <Tip>Publishing jobs Tuesday–Thursday between 8 am and 10 am in your target time zone typically yields faster indexing and better early visibility on LinkedIn and Indeed.</Tip>
+</Accordion>
+
+<Accordion title="Can I post to multiple job boards at once?">
+  Absolutely. When you publish a job, you'll see a **Distribution** panel where you can toggle on every board you want to post to simultaneously. Enable as many as you like and click **Publish** — Job Dashboard pushes the listing to all selected boards in parallel.
+
+  You can also update your default distribution preferences under **Settings → Integrations** so every new job is pre-configured to post to your preferred boards without manual selection each time.
+</Accordion>
+
+## API & Data
+
+<Accordion title="Is there an API available?">
+  Yes. Job Dashboard provides a RESTful API on the **Pro** and **Enterprise** plans. The API lets you programmatically create and manage jobs, retrieve candidates, update pipeline stages, trigger automations, and listen for events via webhooks.
+
+  To get started:
+
+  1. Go to **Settings → API Keys** and generate a new key.
+  2. Pass the key as a Bearer token in the `Authorization` header of every request.
+  3. Read the full [API Reference](https://docs.jobdashboard.com/api-reference) for available endpoints and examples.
+
+  ```bash
+  curl -X GET https://api.jobdashboard.com/v1/jobs \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json"
+  ```
+
+  Rate limits and webhook configuration details are also covered in the API Reference.
+</Accordion>
+
+<Accordion title="Can I export all my data?">
+  Yes, and you own your data entirely. You can export data in two ways:
+
+  **In-app export:**
+  - Go to **Reports → Export** to download jobs, candidates, applications, and notes as CSV or JSON files.
+  - You can scope exports by date range, job, pipeline stage, or candidate status.
+
+  **Full account export:**
+  - Go to **Settings → Data & Privacy → Export All Data**.
+  - Job Dashboard compiles a complete archive of your account and emails you a download link within 1 hour.
+  - The archive includes all jobs, candidates, resumes, notes, audit logs, and billing history in structured JSON format.
+
+  <Note>Full account exports are available to **Admin** users only. Individual recruiters can export data scoped to their own assigned jobs.</Note>
+</Accordion>
+
+<Accordion title="How do I delete my account and data?">
+  To permanently delete your Job Dashboard account:
+
+  1. Go to **Settings → Data & Privacy → Delete Account**.
+  2. Read the summary of what will be deleted (all jobs, candidates, integrations, billing history, and team members).
+  3. Type **DELETE** in the confirmation field to confirm.
+  4. Click **Permanently Delete Account**.
+
+  Deletion is irreversible and takes effect immediately. All data is purged from our servers within 30 days in accordance with our [Privacy Policy](https://jobdashboard.com/privacy).
+
+  <Warning>Deleting your account also cancels any active subscription immediately. You will not receive a prorated refund for unused time unless you contact support before confirming deletion.</Warning>
+
+  If you only want to delete specific candidate records rather than the entire account, you can do so individually from the candidate's profile page or in bulk under **Settings → Data & Privacy → Candidate Data**.
+</Accordion>

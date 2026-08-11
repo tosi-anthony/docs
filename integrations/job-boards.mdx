@@ -1,0 +1,86 @@
+---
+title: "Sync Job Postings to Indeed, LinkedIn, and More"
+sidebarTitle: "Job Boards"
+description: "Publish open positions to Indeed, LinkedIn, Glassdoor, and ZipRecruiter directly from Job Dashboard and automatically pull in applications."
+---
+
+Job board integrations let you distribute your open positions to millions of candidates without leaving Job Dashboard. When you publish a job, it syncs automatically to every connected board. When candidates apply on those boards, their applications flow straight into your pipeline — no manual imports required.
+
+## Supported job boards
+
+Job Dashboard currently integrates with the following boards:
+
+| Board | Application sync | Automatic posting | Manual re-sync |
+|---|---|---|---|
+| Indeed | ✅ | ✅ | ✅ |
+| LinkedIn Jobs | ✅ | ✅ | ✅ |
+| Glassdoor | ✅ | ✅ | ✅ |
+| ZipRecruiter | ✅ | ✅ | ✅ |
+
+<Note>
+  LinkedIn Jobs requires an active LinkedIn Recruiter or Job Slots subscription. A free LinkedIn company page is not sufficient to enable the posting integration.
+</Note>
+
+## Connect a job board account
+
+<Steps>
+  <Step title="Open Integrations settings">
+    Navigate to **Settings → Integrations → Job Boards**. You'll see a list of supported boards, each showing a **Connect** button if not yet linked.
+  </Step>
+  <Step title="Authenticate with the board">
+    Click **Connect** next to the board you want to add. You'll be redirected to that board's authorization page. Sign in with the account that holds your company's posting credentials and grant the requested permissions.
+  </Step>
+  <Step title="Select your company profile">
+    After authorizing, Job Dashboard will ask you to select the company profile or account you want to post under (some boards support multiple employer accounts). Choose the correct profile and click **Confirm**.
+  </Step>
+  <Step title="Map your fields">
+    Review the field-mapping screen (described in detail below) and adjust any defaults. Click **Save mapping** when done.
+  </Step>
+  <Step title="Confirm the connection">
+    The board's status will change to **Connected**. Your next published job will automatically sync to this board.
+  </Step>
+</Steps>
+
+## How posting sync works
+
+When you publish a job in Job Dashboard, the posting is sent to every connected board within a few minutes. If you update the job description, compensation range, or any other field, Job Dashboard pushes the update to all boards automatically.
+
+**Manual re-sync** is available if a board ever falls out of sync (for example, after a temporary API outage). To trigger one:
+
+1. Go to the job's detail page.
+2. Click **More actions → Re-sync to job boards**.
+3. Select the boards you want to re-sync and click **Sync now**.
+
+## Mapping fields to board-specific formats
+
+Each job board uses slightly different field names and formats. Job Dashboard's field mapper lets you control how your data is translated before it's sent.
+
+To review or update mappings, go to **Settings → Integrations → Job Boards**, click **Configure** next to a connected board, and select the **Field mapping** tab.
+
+Common mappings you may want to customize:
+
+- **Job type** — map Job Dashboard values (Full-time, Part-time, Contract) to the board's accepted values
+- **Salary display** — choose whether to show, hide, or estimate compensation on each board
+- **Application URL** — override the default apply link if you use an external ATS for a specific board
+- **Location** — confirm remote/hybrid/on-site values match what the board expects
+
+## Pulling in applications automatically
+
+Once a board is connected, any candidate who applies through that board is added to the relevant job's pipeline in Job Dashboard. The application record includes:
+
+- Candidate name, email, and phone (where provided by the board)
+- Resume or CV file
+- Cover letter (if submitted)
+- Source label (e.g., "Indeed", "LinkedIn") so you can track where your best hires come from
+
+Application sync runs continuously. Most boards deliver new applications within five minutes of submission.
+
+## Disconnect a job board
+
+To remove a job board integration:
+
+1. Go to **Settings → Integrations → Job Boards**.
+2. Click **Configure** next to the board you want to disconnect.
+3. Click **Disconnect**, then confirm when prompted.
+
+Disconnecting a board stops future syncs. Existing jobs remain posted on the board until you manually remove them from that board's employer portal. Applications already pulled into Job Dashboard are not deleted.

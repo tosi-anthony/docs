@@ -1,0 +1,111 @@
+---
+title: "Hiring Analytics and Recruitment Reporting"
+sidebarTitle: "Analytics"
+description: "Job Dashboard analytics surface key hiring metrics — time-to-hire, source effectiveness, pipeline conversion, and more. Learn how to filter and export reports."
+---
+
+The Analytics section transforms your hiring activity into actionable intelligence. Instead of manually counting spreadsheet rows, you get live reports that show where candidates come from, how quickly they move through your pipeline, and where applicants drop off — so you can make faster, more confident decisions about where to invest your recruiting effort.
+
+## Overview Dashboard Metrics
+
+When you first open **Analytics**, you land on the Overview dashboard. Four headline metrics sit at the top of the page and reflect your organization's hiring performance for the currently selected date range:
+
+- **Total Open Roles** — The number of jobs with a status of `Published` right now.
+- **Applications This Week** — The count of new applications received in the last seven days.
+- **Average Time-to-Hire** — The mean number of calendar days from a candidate's application date to the date they were marked Hired.
+- **Offer Acceptance Rate** — The percentage of offers extended that were accepted by candidates.
+
+These numbers update automatically as your team works in Job Dashboard — no manual refreshing required.
+
+## The Four Main Report Types
+
+<CardGroup cols={2}>
+  <Card title="Source Report" icon="chart-bar">
+    See exactly where your candidates are coming from — organic job boards, paid listings, employee referrals, direct applications, or sourcing tools. Use this report to evaluate which channels deliver the highest volume and quality of applicants.
+  </Card>
+  <Card title="Pipeline Funnel" icon="filter">
+    Visualize conversion rates between every stage in your hiring pipeline. Identify where candidates stall or drop off so you can refine your process, adjust evaluation criteria, or redistribute reviewer workload.
+  </Card>
+  <Card title="Time-to-Hire Report" icon="clock">
+    Break down the average number of days candidates spend in each pipeline stage, by job or department. Spot slow stages, benchmark against previous periods, and set realistic expectations with hiring managers.
+  </Card>
+  <Card title="Offer Acceptance Report" icon="circle-check">
+    Track how many offers are accepted, declined, or left pending. Filter by department or job level to see where your offer conversion is weakest and take action before a pattern becomes a problem.
+  </Card>
+</CardGroup>
+
+## Source Report
+
+The Source report answers the question: *Where are our best candidates coming from?*
+
+Navigate to **Analytics → Source Report** to see a breakdown of candidates grouped by acquisition channel. The report shows:
+
+- **Volume** — Total candidates per source in the selected period.
+- **Quality Rate** — The percentage of sourced candidates who reached a qualifying stage (configurable in Settings).
+- **Hired Count** — How many candidates from each source were ultimately hired.
+- **Cost per Hire** *(if cost data is entered for a job board)* — The average spend per successful hire from that channel.
+
+Use this data to double down on high-performing channels and reduce spend on sources with poor conversion.
+
+## Pipeline Funnel
+
+The Pipeline Funnel report shows you a stage-by-stage conversion view for one or more jobs.
+
+Navigate to **Analytics → Pipeline Funnel**. By default the funnel aggregates data across all open roles, but you can scope it to a single job using the **Job** filter (see [Filtering Reports](#filtering-reports) below).
+
+Each row of the funnel shows:
+
+- The stage name
+- The number of candidates who entered that stage
+- The number who advanced to the next stage
+- The conversion rate as a percentage
+
+Hover over any stage bar to see the absolute numbers and the average time candidates spent in that stage before moving on or dropping out.
+
+## Time-to-Hire Report
+
+Navigate to **Analytics → Time-to-Hire** to see a breakdown of hiring speed.
+
+The report presents a table and a bar chart showing:
+
+- **Average days per stage** — How long candidates typically sit in each pipeline stage before a decision is made.
+- **Overall time-to-hire** — The end-to-end average from application to hired decision.
+- **Comparison to previous period** — A delta column shows whether each metric has improved or regressed compared to the prior equivalent period.
+
+Click any stage row to drill down into the individual applications that make up that average, so you can identify specific bottlenecks.
+
+## Filtering Reports
+
+All reports in the Analytics section share a consistent filter bar at the top of the page. Use it to slice data before drawing conclusions.
+
+- **Date Range** — Click the date field to open a calendar picker. Select a preset (Last 7 days, Last 30 days, Last quarter, This year) or enter a fully custom start and end date.
+- **Department** — Limit the report to one or more departments.
+- **Job** — Scope the report to a specific open or closed role.
+
+Applied filters persist as you navigate between report tabs so your context is not lost.
+
+<Tip>
+  Always set an explicit date range before comparing metrics across time periods. Leaving the date range open (which defaults to "all time") can dilute averages with historical data from very different hiring conditions, making period-over-period comparisons misleading. A rolling 30- or 90-day window usually gives the most actionable signal.
+</Tip>
+
+## Exporting Reports
+
+You can export any report in the Analytics section for sharing with stakeholders or deeper analysis in a spreadsheet or BI tool.
+
+<Steps>
+  <Step title="Open the report you want to export">
+    Navigate to the relevant report tab (Source Report, Pipeline Funnel, Time-to-Hire, or Offer Acceptance) and apply any filters you need.
+  </Step>
+  <Step title="Click Export">
+    Click the **Export** button in the top-right corner of the report panel.
+  </Step>
+  <Step title="Choose the format">
+    Select either **CSV** or **PDF** from the dropdown:
+
+    - **CSV** — Exports the raw tabular data behind the charts. Ideal for further analysis in Excel, Google Sheets, or a BI tool.
+    - **PDF** — Exports a formatted, print-ready snapshot of the report including charts. Ideal for sharing with leadership or archiving as a record.
+  </Step>
+  <Step title="Download the file">
+    Click **Download**. The file generates in the background and downloads to your browser within a few seconds. For large date ranges, a download link is also emailed to you in case the page is closed before the file is ready.
+  </Step>
+</Steps>

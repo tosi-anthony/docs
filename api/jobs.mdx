@@ -1,0 +1,223 @@
+---
+title: "REST API Endpoints for Jobs"
+sidebarTitle: "Jobs API"
+description: "Create, list, update, and delete job postings programmatically. The Jobs API lets you sync open positions from your ATS or internal systems."
+---
+
+The Jobs API lets you manage every aspect of your job postings without touching the Job Dashboard UI. Use it to push new openings from your internal ATS, keep salary bands and descriptions in sync with your HRIS, or build a custom careers page that reads directly from your live postings. All five standard CRUD operations are supported — list, create, read, update, and delete.
+
+---
+
+## List all jobs
+
+<ParamField query="status" type="string">
+  Filter by job status. Accepted values: `draft`, `published`, `paused`, `closed`.
+</ParamField>
+
+<ParamField query="limit" type="integer" default="20">
+  Number of results to return per page. Maximum: `100`.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+  Pagination cursor returned by the previous response's `next_cursor` field. Omit on the first request.
+</ParamField>
+
+```bash
+curl "https://api.jobdashboard.com/v1/jobs?status=published&limit=20" \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+**Response `200 OK`**
+
+<ResponseField name="data" type="array">
+  Array of job objects.
+
+  <Expandable title="Job object fields">
+    <ResponseField name="id" type="string">
+      Unique identifier for the job.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Job title (e.g. `"Senior Software Engineer"`).
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Current status of the posting: `draft`, `published`, `paused`, or `closed`.
+    </ResponseField>
+    <ResponseField name="department" type="string">
+      Department the role belongs to (e.g. `"Engineering"`).
+    </ResponseField>
+    <ResponseField name="location" type="string">
+      Office location or `"Remote"`.
+    </ResponseField>
+    <ResponseField name="employment_type" type="string">
+      Employment type: `full_time`, `part_time`, `contract`, or `intern`.
+    </ResponseField>
+    <ResponseField name="created_at" type="string">
+      ISO 8601 timestamp of when the job was created.
+    </ResponseField>
+    <ResponseField name="updated_at" type="string">
+      ISO 8601 timestamp of the most recent update.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="next_cursor" type="string">
+  Cursor to pass as the `cursor` query parameter to fetch the next page. `null` when no further pages exist.
+</ResponseField>
+
+<ResponseField name="has_more" type="boolean">
+  `true` if additional pages of results exist beyond this response.
+</ResponseField>
+
+---
+
+## Create a job
+
+<ParamField body="title" type="string" required>
+  Job title. Must be between 2 and 200 characters.
+</ParamField>
+
+<ParamField body="description" type="string" required>
+  Full job description. Supports plain text or Markdown.
+</ParamField>
+
+<ParamField body="location" type="string">
+  Office location or `"Remote"`.
+</ParamField>
+
+<ParamField body="employment_type" type="string">
+  Employment type. Accepted values: `full_time`, `part_time`, `contract`, `intern`.
+</ParamField>
+
+<ParamField body="salary_min" type="integer">
+  Minimum annual salary in whole currency units (e.g. `80000`).
+</ParamField>
+
+<ParamField body="salary_max" type="integer">
+  Maximum annual salary in whole currency units (e.g. `120000`).
+</ParamField>
+
+<ParamField body="department" type="string">
+  Department name. Must match an existing department in your account.
+</ParamField>
+
+<ParamField body="status" type="string" default="draft">
+  Initial status of the posting. Accepted values: `draft`, `published`. Defaults to `draft`.
+</ParamField>
+
+```bash
+curl -X POST https://api.jobdashboard.com/v1/jobs \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Senior Software Engineer",
+    "description": "We are looking for an experienced engineer to join our platform team...",
+    "location": "Remote",
+    "employment_type": "full_time",
+    "salary_min": 120000,
+    "salary_max": 160000,
+    "department": "Engineering",
+    "status": "draft"
+  }'
+```
+
+**Response `201 Created`**
+
+Returns the newly created job object. See the [List all jobs](#list-all-jobs) section above for the full schema of a job object.
+
+<Note>
+  Jobs created with `"status": "published"` are immediately visible on your careers page. Use `"status": "draft"` while the role is still being prepared internally.
+</Note>
+
+---
+
+## Get a job
+
+Retrieve a single job posting by its unique ID.
+
+```bash
+curl https://api.jobdashboard.com/v1/jobs/job_01HXYZ9876WXYZ \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+**Response `200 OK`**
+
+Returns the job object for the given ID. Returns `404 Not Found` if the job does not exist or belongs to a different account.
+
+---
+
+## Update a job
+
+Replace one or more fields on an existing job. You may include any subset of the fields accepted by [Create a job](#create-a-job) — only the fields you provide are updated.
+
+<ParamField path="id" type="string" required>
+  The ID of the job to update.
+</ParamField>
+
+<ParamField body="title" type="string">
+  Updated job title.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Updated job description.
+</ParamField>
+
+<ParamField body="location" type="string">
+  Updated location.
+</ParamField>
+
+<ParamField body="employment_type" type="string">
+  Updated employment type: `full_time`, `part_time`, `contract`, `intern`.
+</ParamField>
+
+<ParamField body="salary_min" type="integer">
+  Updated minimum salary.
+</ParamField>
+
+<ParamField body="salary_max" type="integer">
+  Updated maximum salary.
+</ParamField>
+
+<ParamField body="department" type="string">
+  Updated department name.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Updated status: `draft`, `published`, `paused`, or `closed`.
+</ParamField>
+
+```bash
+curl -X PUT https://api.jobdashboard.com/v1/jobs/job_01HXYZ9876WXYZ \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "published",
+    "salary_max": 170000
+  }'
+```
+
+**Response `200 OK`**
+
+Returns the fully updated job object.
+
+---
+
+## Delete a job
+
+Permanently delete a job posting. This also removes the job from your public careers page if it was published. Associated applications are retained but will reference a deleted job ID.
+
+<ParamField path="id" type="string" required>
+  The ID of the job to delete.
+</ParamField>
+
+```bash
+curl -X DELETE https://api.jobdashboard.com/v1/jobs/job_01HXYZ9876WXYZ \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+**Response `204 No Content`**
+
+No response body is returned on success.
+
+<Warning>
+  Deletion is permanent and cannot be undone. If you want to stop accepting applications without losing the posting, set the job's `status` to `closed` instead.
+</Warning>

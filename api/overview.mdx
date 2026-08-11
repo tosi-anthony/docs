@@ -1,0 +1,109 @@
+---
+title: "Job Dashboard REST API Overview"
+sidebarTitle: "Overview"
+description: "The Job Dashboard REST API lets you automate job postings, sync candidates, and integrate hiring data with your own tools. Base URL: https://api.jobdashboard.com/v1."
+---
+
+The Job Dashboard REST API gives you programmatic access to every part of your hiring workflow — from posting jobs and ingesting applications to moving candidates through your pipeline and pulling recruitment metrics into your own dashboards. Every capability available in the Job Dashboard web app is also available through this API, so you can build deep integrations, automate repetitive tasks, and connect Job Dashboard to the rest of your toolchain.
+
+## Base URL
+
+All API requests are made to the following base URL. The version number (`v1`) is embedded directly in the path so you always know exactly which contract your integration is targeting.
+
+```
+https://api.jobdashboard.com/v1
+```
+
+## Request and response format
+
+Every request and response body uses JSON. Include the `Content-Type: application/json` header on all requests that send a body (POST, PUT, PATCH). The API always responds with `Content-Type: application/json`.
+
+Here is a minimal example showing the required headers:
+
+```bash
+curl https://api.jobdashboard.com/v1/jobs \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+## Authentication
+
+Authenticate every request by passing your API key as a Bearer token in the `Authorization` header:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+Requests without a valid API key receive a `401 Unauthorized` response. See the [Authentication](/api/authentication) page for details on generating keys, managing scopes, and security best practices.
+
+## Versioning
+
+The API version is included in the URL path (e.g. `/v1/`). When breaking changes are introduced, a new version is released under a new path prefix. You will always receive advance notice before an older version is deprecated, giving you time to migrate without disruption.
+
+## Rate limits
+
+Each API key is subject to a limit of **1,000 requests per hour**. If you exceed this limit, the API returns a `429 Too Many Requests` response. The response includes a `Retry-After` header indicating how many seconds to wait before making your next request.
+
+<Note>
+  If your use case requires a higher rate limit, contact [support@jobdashboard.com](mailto:support@jobdashboard.com) to discuss an increased quota for your account.
+</Note>
+
+## Pagination
+
+Endpoints that return lists use **cursor-based pagination**. Pass a `limit` query parameter to control the page size (default: `20`, maximum: `100`). When more results exist beyond the current page, the response body includes a `next_cursor` value. Pass that value as the `cursor` query parameter on your next request to fetch the following page.
+
+```json
+{
+  "data": [...],
+  "next_cursor": "cur_01HXYZ1234ABCD",
+  "has_more": true
+}
+```
+
+When `has_more` is `false`, you have reached the end of the result set.
+
+## Error responses
+
+All error responses share a consistent shape so you can handle them uniformly in your integration:
+
+```json
+{
+  "error": {
+    "code": "string",
+    "message": "string"
+  }
+}
+```
+
+The `code` field is a machine-readable string you can match in your code (for example, `"not_found"` or `"validation_error"`). The `message` field is a human-readable description of what went wrong.
+
+### HTTP status codes
+
+| Status | Meaning |
+|--------|---------|
+| `200 OK` | Request succeeded |
+| `201 Created` | Resource was successfully created |
+| `204 No Content` | Request succeeded with no response body (e.g. DELETE) |
+| `400 Bad Request` | Invalid request body or query parameters |
+| `401 Unauthorized` | Missing or invalid API key |
+| `403 Forbidden` | Valid API key but insufficient scope |
+| `404 Not Found` | Resource does not exist |
+| `429 Too Many Requests` | Rate limit exceeded |
+| `500 Internal Server Error` | Unexpected server-side error |
+
+## Explore the API
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api/authentication">
+    Generate API keys, understand scopes, and secure your integration.
+  </Card>
+  <Card title="Jobs API" icon="briefcase" href="/api/jobs">
+    Create, list, update, and delete job postings programmatically.
+  </Card>
+  <Card title="Candidates API" icon="user" href="/api/candidates">
+    Sync candidate profiles from external sources or custom portals.
+  </Card>
+  <Card title="Applications API" icon="file-lines" href="/api/applications">
+    Move candidates through pipeline stages and log hiring decisions.
+  </Card>
+</CardGroup>

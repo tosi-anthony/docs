@@ -1,0 +1,101 @@
+---
+title: "Hiring Pipeline: Stages and Workflow"
+sidebarTitle: "Pipeline"
+description: "The hiring pipeline in Job Dashboard tracks each application through customizable stages, from first contact to offer. Learn how to configure and use it."
+---
+
+The **hiring pipeline** is the backbone of how Job Dashboard tracks progress toward filling a role. Every application lives in exactly one pipeline stage at a time, and moving an application forward — or disqualifying it — is the primary action your team takes day to day. The pipeline is fully customizable, so it can match how your organization actually hires rather than forcing you to fit a generic process.
+
+## Default stages
+
+Every new job in Job Dashboard starts with the following default pipeline:
+
+**Applied → Screening → Interview → Offer → Hired / Rejected**
+
+These stages cover the most common hiring workflow out of the box. You can rename, reorder, add, or remove stages at any time to fit your specific process.
+
+## Configuring your pipeline stages
+
+To add, rename, or reorder stages, navigate to **Settings → Pipeline**. Changes you make to the default pipeline template apply to all new jobs going forward. You can also customize the pipeline for an individual job by editing the job and opening the **Pipeline** tab.
+
+- **Add a stage** — Click **Add Stage**, enter a name, and drag it to the position you want.
+- **Rename a stage** — Click the stage name, type the new name, and save.
+- **Reorder stages** — Drag any stage card to a new position in the list.
+- **Delete a stage** — Click the trash icon on the stage. Any applications currently in that stage will be moved to the preceding stage automatically.
+
+<Tip>
+  Configure your pipeline stages before you publish a job. Restructuring stages
+  after applications have arrived is possible but requires manually reviewing
+  any applications that get shifted between stages during the reorder.
+</Tip>
+
+## Moving candidates between stages
+
+You can move an application to a different stage in two ways:
+
+**In the UI** — Open the Pipeline view for a job. Each stage is displayed as a column. Drag an application card from one column and drop it onto the target stage. The move is saved instantly.
+
+**Via the API** — Send a `PATCH` request to the application endpoint and update the `stage_id` field:
+
+```bash
+PATCH /v1/applications/{application_id}
+Content-Type: application/json
+Authorization: Bearer YOUR_API_KEY
+
+{
+  "stage_id": "stage_offer"
+}
+```
+
+Both methods record the stage change in the candidate's activity history with a timestamp and the name of the team member (or API key) that triggered it.
+
+## How to move a candidate through stages
+
+<Steps>
+  <Step title="Open the Pipeline view">
+    From the left navigation, click **Jobs**, select the job you are working on,
+    and then click the **Pipeline** tab. You will see all active applications
+    organized by stage.
+  </Step>
+  <Step title="Review the application">
+    Click an application card to open the candidate profile. Review their resume,
+    notes, and any existing feedback before deciding on the next step.
+  </Step>
+  <Step title="Drag the card to the next stage">
+    Close the profile panel and drag the application card to the target stage
+    column. A confirmation tooltip briefly appears to confirm the move.
+  </Step>
+  <Step title="Trigger any stage actions">
+    If you have automated actions configured for that stage (see below), they
+    fire immediately after the move — for example, sending the candidate an
+    interview invitation email.
+  </Step>
+  <Step title="Add feedback or a note">
+    Re-open the application and add a note or structured feedback so the next
+    reviewer has full context. This is especially important before handing off
+    to a hiring manager or scheduling a formal interview.
+  </Step>
+</Steps>
+
+## Automated actions on stage changes
+
+You can configure automated actions that trigger whenever an application enters a specific stage. Set these up under **Settings → Pipeline → Automations** or directly on an individual job's **Pipeline** tab.
+
+Available automations include:
+
+- **Send an email** — Automatically send a templated email to the candidate (e.g., an interview invitation or rejection notice).
+- **Notify a team member** — Post a Slack message or in-app notification to a specific recruiter or hiring manager.
+- **Assign a reviewer** — Automatically assign the application to a team member responsible for that stage.
+- **Add a tag** — Apply a candidate tag when they reach a particular stage (e.g., tag all candidates who reach Offer as `offer-extended`).
+
+Each automation is tied to a specific stage and job (or to the global pipeline template). You can have multiple automations per stage.
+
+## Disqualification reasons
+
+When you move an application to **Rejected**, Job Dashboard prompts you to select a disqualification reason. You can customize the list of reasons under **Settings → Pipeline → Disqualification Reasons**. Tracking reasons consistently gives you data you can use to improve your sourcing and screening process over time — for example, spotting that most rejections at the Screening stage are due to location mismatch might prompt you to update the job's location requirements.
+
+<Note>
+  Disqualification reasons are internal only. Candidates never see the reason
+  you selected — they receive only the rejection email (if you have one
+  configured).
+</Note>

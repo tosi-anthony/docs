@@ -1,0 +1,144 @@
+---
+title: "Track Applications Through Your Hiring Pipeline"
+sidebarTitle: "Applications"
+description: "The Applications view shows every candidate–job pairing in your hiring pipeline. Move candidates between stages, log decisions, and collaborate with your team."
+---
+
+The Applications section brings together every active candidate–job pairing in your organization into one manageable workspace. Whether you prefer a visual Kanban board or a data-dense list, Job Dashboard gives you the tools to move candidates forward, capture structured feedback, communicate with applicants, and keep your whole hiring team aligned — all from the same screen.
+
+## Kanban Pipeline View vs. List View
+
+You can switch between two layouts depending on how you like to work. The toggle appears in the top-right corner of the Applications page.
+
+<Tabs>
+  <Tab title="Kanban View">
+    The Kanban view displays your hiring pipeline as a set of columns, one per stage (for example: **Applied → Phone Screen → Interview → Offer → Hired**). Each application appears as a card within its current stage column.
+
+    **What you can do in Kanban view:**
+
+    - See at a glance how many candidates are in each stage and identify bottlenecks.
+    - Drag a card from one column to another to advance or revert a candidate's stage.
+    - Click a card to open the full application detail panel without leaving the board.
+    - Use the **Job** selector at the top of the board to switch between pipelines for different open roles.
+
+    Kanban view is best for active, day-to-day pipeline management and team standups where a visual overview matters.
+  </Tab>
+  <Tab title="List View">
+    The List view displays all applications in a sortable, filterable table with columns for candidate name, job title, current stage, last activity date, source, and assigned reviewer.
+
+    **What you can do in List view:**
+
+    - Sort by any column header (click once for ascending, again for descending).
+    - Apply multi-column filters to slice the data by stage, job, source, date range, or reviewer.
+    - Select multiple rows for bulk stage changes or bulk rejection.
+    - Export the filtered view as a CSV for offline reporting.
+
+    List view is best for auditing large volumes of applications, building reports, or performing bulk operations across multiple jobs at once.
+  </Tab>
+</Tabs>
+
+## Moving an Application to a New Stage
+
+You can advance or move back a candidate in the pipeline using either the drag-and-drop interface or the stage dropdown.
+
+**Using drag-and-drop (Kanban view):**
+
+1. Click and hold the application card.
+2. Drag it to the target stage column.
+3. Release to drop. The stage updates instantly and an activity entry is logged automatically.
+
+**Using the stage dropdown (any view):**
+
+1. Open the application detail panel by clicking the candidate's name or card.
+2. Click the **Stage** dropdown at the top of the panel.
+3. Select the new stage from the list.
+4. The change saves immediately. Optionally add a note explaining the move (see below).
+
+## Leaving a Stage-Specific Note or Interview Scorecard
+
+Capturing structured feedback at each stage keeps your team aligned and creates a record for future hiring decisions.
+
+<Steps>
+  <Step title="Open the application detail panel">
+    Click the candidate's name in the list or their card in Kanban view to open the detail panel.
+  </Step>
+  <Step title="Navigate to the Feedback tab">
+    Select the **Feedback** tab inside the panel. You will see any notes or scorecards already submitted by teammates.
+  </Step>
+  <Step title="Add a note or scorecard">
+    - Click **+ Add Note** to write a free-form observation.
+    - Click **+ Fill Scorecard** to complete a structured interview scorecard. Scorecards are tied to specific pipeline stages and contain predefined competency questions set up by your admin.
+  </Step>
+  <Step title="Submit your feedback">
+    Click **Submit**. Your note or scorecard is saved, timestamped, and visible to all collaborators on the role.
+  </Step>
+</Steps>
+
+## Sending an Email Directly from the Application
+
+You can message a candidate without leaving Job Dashboard, keeping a full communication log attached to their application.
+
+<Steps>
+  <Step title="Open the application detail panel">
+    Click the candidate's name to open their application.
+  </Step>
+  <Step title="Go to the Emails tab">
+    Select the **Emails** tab to see the full correspondence history with this candidate.
+  </Step>
+  <Step title="Compose a new message">
+    Click **Compose Email**. Choose a template from the dropdown or write a custom message. You can use merge tags such as `{{candidate.first_name}}` and `{{job.title}}` to personalize the email automatically.
+  </Step>
+  <Step title="Send or schedule">
+    Click **Send Now** to deliver the email immediately, or click **Schedule** to pick a future date and time.
+  </Step>
+</Steps>
+
+## Scheduling an Interview
+
+Job Dashboard integrates with your team's calendar to make scheduling frictionless.
+
+<Steps>
+  <Step title="Open the application and click Schedule Interview">
+    From the application detail panel, click the **Schedule Interview** button. This appears in the **Overview** tab or within the relevant pipeline stage.
+  </Step>
+  <Step title="Select interviewers">
+    Search for and add the team members who will conduct the interview. Their calendar availability is fetched automatically if you have a calendar integration connected (Google Calendar or Microsoft 365).
+  </Step>
+  <Step title="Choose a time slot">
+    Pick from the suggested available slots, or enter a custom date and time. Toggle **Send calendar invite** to automatically email the candidate and interviewers a calendar event with a video conference link.
+  </Step>
+  <Step title="Confirm">
+    Click **Schedule**. The interview is logged in the application activity, and all participants receive an invite.
+  </Step>
+</Steps>
+
+## Marking as Hired or Rejected
+
+**To mark a candidate as Hired:**
+
+1. Open the application detail panel.
+2. Click **Mark as Hired** in the top-right action area.
+3. Confirm the dialog. The application moves to the **Hired** stage, the role's open headcount is decremented by one, and a congratulations email template is queued for you to review and send.
+
+**To mark a candidate as Rejected:**
+
+1. Open the application detail panel.
+2. Click **Reject** in the top-right action area.
+3. Select a **Disqualification Reason** from the dropdown (for example: *Overqualified*, *Location mismatch*, *Not enough experience*, *Position filled*). Selecting a reason is required — it feeds into your pipeline analytics.
+4. Optionally toggle **Send rejection email** to dispatch a templated message to the candidate.
+5. Click **Confirm Rejection**.
+
+## The Activity Log
+
+Every application carries a full, immutable activity log that records everything that has happened on that record.
+
+To view it, open the application detail panel and click the **Activity** tab. The log displays:
+
+- Stage changes (who moved the candidate and when)
+- Notes and scorecards added
+- Emails sent and received
+- Interview scheduled, rescheduled, or cancelled events
+- Hired or rejected decisions with the acting user
+- Any edits made to the application record
+
+The activity log cannot be edited or deleted, ensuring a reliable audit trail throughout the hiring process.

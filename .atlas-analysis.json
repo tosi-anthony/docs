@@ -1,24 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "Job Dashboard",
+  "projectType": "saas",
+  "projectName": "Job Dashboard",
+  "projectDescription": "A SaaS job dashboard that helps users track job applications, manage candidates, and streamline the hiring workflow.",
   "theme": "almond",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "primary": {
-      "type": "button",
-      "label": "Go to Dashboard",
-      "href": "https://app.jobdashboard.com"
-    }
-  },
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -27,7 +14,7 @@
           {
             "group": "Get Started",
             "pages": [
-              "index",
+              "introduction",
               "quickstart",
               "account-setup"
             ]
@@ -98,9 +85,29 @@
       }
     ]
   },
-  "footer": {
-    "socials": {
-      "linkedin": "https://linkedin.com"
-    }
-  }
+  "keyFeatures": [
+    "Job posting and management",
+    "Candidate tracking and profiles",
+    "Application pipeline management",
+    "Hiring analytics and reporting",
+    "Team collaboration tools",
+    "Job board integrations",
+    "Email and notification workflows",
+    "REST API for custom integrations"
+  ],
+  "publicApiSurface": [
+    "GET /api/jobs",
+    "POST /api/jobs",
+    "GET /api/jobs/{id}",
+    "PUT /api/jobs/{id}",
+    "DELETE /api/jobs/{id}",
+    "GET /api/candidates",
+    "POST /api/candidates",
+    "GET /api/candidates/{id}",
+    "GET /api/applications",
+    "POST /api/applications",
+    "PUT /api/applications/{id}/status",
+    "POST /api/webhooks",
+    "GET /api/webhooks"
+  ]
 }

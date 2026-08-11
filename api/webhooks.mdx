@@ -1,0 +1,183 @@
+---
+title: "Webhooks: Receive Real-Time Hiring Events"
+sidebarTitle: "Webhooks"
+description: "Job Dashboard webhooks send HTTP POST requests to your endpoint when key hiring events occur — new applications, stage changes, and more."
+---
+
+Webhooks let you react to hiring events in real time without continuously polling the API. When something significant happens in Job Dashboard — a new application arrives, a candidate advances to an interview stage, a job goes live — Job Dashboard sends an HTTP POST request to a URL you register. Use webhooks to trigger Slack notifications, update a spreadsheet, sync your ATS, or kick off any automated workflow downstream.
+
+## Registering a webhook endpoint
+
+Register a new webhook by calling `POST /webhooks` with the URL you want Job Dashboard to send events to and the list of event types you want to subscribe to.
+
+<ParamField body="url" type="string" required>
+  The HTTPS URL of your endpoint. Must begin with `https://`. Job Dashboard will not send events to plain HTTP endpoints.
+</ParamField>
+
+<ParamField body="events" type="array" required>
+  An array of event type strings to subscribe to. See [Available events](#available-events) below for the full list. Pass `["*"]` to subscribe to all current and future events.
+</ParamField>
+
+```bash
+curl -X POST https://api.jobdashboard.com/v1/webhooks \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://yourapp.com/webhooks/jobdashboard",
+    "events": ["application.created", "application.stage_changed"]
+  }'
+```
+
+**Response `201 Created`**
+
+```json
+{
+  "id": "wh_01HXYZ9900CCDD",
+  "url": "https://yourapp.com/webhooks/jobdashboard",
+  "events": ["application.created", "application.stage_changed"],
+  "signing_secret": "whsec_xxxxxxxxxxxxxxxxxxxxxxxx",
+  "created_at": "2024-06-01T12:00:00Z"
+}
+```
+
+Copy the `signing_secret` immediately — it is only returned at creation time and is used to verify incoming webhook signatures.
+
+## Available events
+
+Subscribe to any combination of the following event types:
+
+| Event | Triggered when |
+|-------|---------------|
+| `application.created` | A candidate submits a new application |
+| `application.stage_changed` | An application is moved to a new pipeline stage |
+| `candidate.created` | A new candidate profile is created |
+| `job.published` | A job's status changes to `published` |
+| `job.closed` | A job's status changes to `closed` |
+
+## Webhook payload shape
+
+Every webhook delivery is an HTTP POST request with a JSON body following this structure:
+
+```json
+{
+  "event": "application.stage_changed",
+  "timestamp": "2024-06-01T14:23:00Z",
+  "data": {
+    "id": "app_01HXYZ1122AABB",
+    "job_id": "job_01HXYZ9876WXYZ",
+    "candidate_id": "cand_01HXYZ5678ABCD",
+    "stage": "technical_interview",
+    "updated_at": "2024-06-01T14:23:00Z"
+  }
+}
+```
+
+<ResponseField name="event" type="string">
+  The event type that triggered this delivery (e.g. `"application.stage_changed"`).
+</ResponseField>
+
+<ResponseField name="timestamp" type="string">
+  ISO 8601 timestamp of when the event occurred on the Job Dashboard platform.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  The resource object relevant to the event. The shape of `data` matches the API response for the corresponding resource type.
+</ResponseField>
+
+## Verifying webhook signatures
+
+Job Dashboard signs every webhook delivery so you can confirm it genuinely came from Job Dashboard and was not tampered with in transit. The signature is included in the `X-JD-Signature` request header as a hex-encoded HMAC-SHA256 digest of the raw request body, computed using your endpoint's signing secret.
+
+<Warning>
+  Always verify the webhook signature before processing the payload. Skipping this step could allow malicious third parties to send fake events to your endpoint.
+</Warning>
+
+Here is a complete verification function in Node.js:
+
+```javascript verify-webhook.js
+const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, secret) {
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(expected),
+    Buffer.from(signature)
+  );
+}
+```
+
+To use this function in an Express handler:
+
+```javascript webhook-handler.js
+const express = require('express');
+const crypto = require('crypto');
+
+const app = express();
+
+// Use express.raw() to access the raw body for signature verification
+app.post('/webhooks/jobdashboard', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['x-jd-signature'];
+  const secret = process.env.JD_WEBHOOK_SECRET;
+
+  if (!verifyWebhook(req.body, signature, secret)) {
+    return res.status(401).send('Invalid signature');
+  }
+
+  const event = JSON.parse(req.body);
+
+  // Handle the event
+  switch (event.event) {
+    case 'application.created':
+      // e.g. notify your team in Slack
+      break;
+    case 'application.stage_changed':
+      // e.g. sync with your ATS
+      break;
+    default:
+      console.log('Unhandled event type:', event.event);
+  }
+
+  res.status(200).send('OK');
+});
+```
+
+<Tip>
+  Use `crypto.timingSafeEqual` rather than a simple string comparison to prevent timing attacks that could allow an attacker to guess valid signatures incrementally.
+</Tip>
+
+## Responding to webhooks
+
+Your endpoint must return a `2xx` HTTP status code within **5 seconds** of receiving the delivery. Job Dashboard considers any response outside the 2xx range (or no response within the timeout) a failed delivery and will retry.
+
+- **Retry schedule:** Job Dashboard retries failed deliveries up to **3 times** with exponential backoff (approximately 1 minute, then 5 minutes, then 30 minutes after the initial attempt).
+- **Acknowledge first, process second:** If your handler needs to perform slow operations (database writes, third-party API calls), return `200` immediately and process the event asynchronously in a background job.
+- **Idempotency:** Webhooks may occasionally be delivered more than once (e.g. if your endpoint returned a success but Job Dashboard did not receive the response). Design your handler to be idempotent — use the `data.id` field to detect and safely ignore duplicate deliveries.
+
+<Note>
+  After 3 failed retries, the delivery is marked as permanently failed. You can review failed deliveries in Settings → Webhooks and manually replay them if needed.
+</Note>
+
+## Listing webhook endpoints
+
+Retrieve all registered webhook endpoints for your account.
+
+```bash
+curl https://api.jobdashboard.com/v1/webhooks \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+Returns an array of webhook objects (without the `signing_secret` field).
+
+## Deleting a webhook endpoint
+
+Remove a webhook endpoint so it no longer receives events.
+
+```bash
+curl -X DELETE https://api.jobdashboard.com/v1/webhooks/wh_01HXYZ9900CCDD \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+Returns `204 No Content` on success. Deletion is immediate — no further deliveries will be attempted to that endpoint.

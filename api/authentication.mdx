@@ -1,0 +1,82 @@
+---
+title: "Authenticate Requests to the Job Dashboard API"
+sidebarTitle: "Authentication"
+description: "Job Dashboard API uses Bearer token authentication. Generate an API key from your account settings and include it in every request header."
+---
+
+Every request to the Job Dashboard API must be authenticated using an API key. The API uses the standard HTTP Bearer token scheme — you generate a key in your account settings, then include it in the `Authorization` header of every request. There are no sessions or cookies involved, making the API straightforward to integrate with any HTTP client, CI environment, or backend service.
+
+## Generating an API key
+
+To generate a new API key, navigate to **Settings → API Keys → Generate New Key** in the Job Dashboard web app. Give the key a descriptive name (for example, `"ATS Integration – Production"`) so you can identify it later. Copy the key immediately after creation — for security reasons, the full key value is only shown once.
+
+<Note>
+  You can generate multiple API keys for different integrations or environments. Each key can be revoked independently without affecting the others.
+</Note>
+
+## API key format
+
+Job Dashboard API keys use a prefixed format so you can identify them at a glance:
+
+| Prefix | Environment |
+|--------|------------|
+| `jd_live_` | Production |
+| `jd_test_` | Sandbox |
+
+Use `jd_test_` keys during development and testing. Sandbox requests do not affect your live data and are not counted toward your production rate limit.
+
+## Making authenticated requests
+
+Pass your API key as a Bearer token in the `Authorization` header on every request:
+
+```bash
+curl https://api.jobdashboard.com/v1/jobs \
+  -H "Authorization: Bearer jd_live_xxxxxxxxxxxx"
+```
+
+Here is the same request using the JavaScript `fetch` API, reading the key from an environment variable:
+
+```javascript fetch-jobs.js
+const response = await fetch('https://api.jobdashboard.com/v1/jobs', {
+  headers: {
+    'Authorization': 'Bearer ' + process.env.JD_API_KEY,
+    'Content-Type': 'application/json'
+  }
+});
+const data = await response.json();
+```
+
+<Warning>
+  Never expose your API key in client-side code, public repositories, or any location visible to end users. Always read keys from environment variables or a secrets manager. If a key is compromised, revoke it immediately from Settings → API Keys.
+</Warning>
+
+## API key scopes
+
+When you create an API key, you assign it one of two permission scopes:
+
+| Scope | Permissions |
+|-------|-------------|
+| **Read-only** | `GET` requests only — list and retrieve resources |
+| **Full Access** | `GET`, `POST`, `PUT`, `DELETE` — full read and write access |
+
+Choose the most restrictive scope that meets your integration's needs. For example, a reporting dashboard only needs Read-only access, while an ATS integration that creates jobs and moves candidates requires Full Access.
+
+Requests made with a Read-only key that attempt a write operation receive a `403 Forbidden` response with error code `"insufficient_scope"`.
+
+## Revoking an API key
+
+To revoke a key, go to **Settings → API Keys**, find the key by name, and click **Revoke**. Revoked keys are immediately rejected by the API with a `401 Unauthorized` response. Revocation cannot be undone — if you need access again, generate a new key.
+
+<Tip>
+  Rotate your API keys periodically as part of your security hygiene. Treat API keys with the same care as passwords.
+</Tip>
+
+## Security best practices
+
+Follow these guidelines to keep your API keys secure:
+
+- **Use environment variables.** Store keys in environment variables (e.g. `JD_API_KEY`) rather than hardcoding them in your application code.
+- **Never commit keys to source control.** Add `.env` files to your `.gitignore` and audit your repository history if you suspect a key was accidentally committed.
+- **Use separate keys per environment.** Keep production (`jd_live_`) and sandbox (`jd_test_`) keys separate, and use different keys for different integrations so you can revoke them independently.
+- **Restrict scopes.** Only request Full Access when your integration genuinely requires write operations.
+- **Monitor key usage.** Review the API key activity log in Settings → API Keys to detect unexpected usage patterns.

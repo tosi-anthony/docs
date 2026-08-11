@@ -1,0 +1,74 @@
+---
+title: "Set Up Slack and Email Notifications for Hiring Events"
+sidebarTitle: "Notifications"
+description: "Send real-time Slack messages or emails when candidates apply, change stages, or when an interview is scheduled. Configure notification rules in Settings."
+---
+
+Notification integrations keep your hiring team informed without requiring anyone to check Job Dashboard constantly. You can route alerts to individual email inboxes, post messages to a shared Slack channel, or both — and you can fine-tune which events trigger alerts at the team level, the job level, or the individual user level.
+
+## Email notifications
+
+Job Dashboard sends email notifications using two layers of configuration:
+
+- **Per-user preferences** — each team member controls which events they personally receive emails about. Adjust these under **Settings → Profile → Notification preferences**.
+- **Team-level rules** — Admins can define organization-wide defaults under **Settings → Notifications**. These rules apply to all team members unless a user has overridden them personally.
+
+Team-level rules are useful for ensuring that certain high-priority events (like a new application for an executive role) always reach the right people, regardless of individual preferences.
+
+## Connect Slack
+
+<Steps>
+  <Step title="Open Notifications settings">
+    Go to **Settings → Integrations → Notifications** and click **Connect Slack**.
+  </Step>
+  <Step title="Authorize the Slack app">
+    You'll be redirected to Slack's authorization page. Select the Slack workspace you want to connect and click **Allow**. You must be a Slack workspace admin or have permission to install apps.
+  </Step>
+  <Step title="Choose a default channel">
+    After authorization, Job Dashboard will ask you to select a default channel for hiring notifications (for example, `#hiring` or `#recruiting`). You can change this at any time or set per-job overrides later.
+  </Step>
+  <Step title="Send a test message">
+    Click **Send test message** to confirm the connection is working. You should see a confirmation post appear in your selected channel within a few seconds.
+  </Step>
+  <Step title="Configure which events post to Slack">
+    Use the event toggles (described below) to choose which hiring events should trigger Slack messages. Click **Save** when done.
+  </Step>
+</Steps>
+
+## Notification events
+
+The table below shows which events can trigger notifications and through which channels.
+
+| Event | Email | Slack |
+|---|---|---|
+| New application received | ✅ | ✅ |
+| Candidate advances to next stage | ✅ | ✅ |
+| Candidate rejected or withdrawn | ✅ | ✅ |
+| Interview scheduled | ✅ | ✅ |
+| Interview reminder (24 hours before) | ✅ | ✅ |
+| Interviewer feedback submitted | ✅ | ✅ |
+| Offer sent to candidate | ✅ | ✅ |
+| Offer accepted by candidate | ✅ | ✅ |
+| Offer declined by candidate | ✅ | ✅ |
+| Job posting published | ❌ | ✅ |
+| Job posting closed | ❌ | ✅ |
+
+## Per-job notification overrides
+
+By default, notification rules apply across all jobs. If you need different behavior for a specific role — for example, posting senior engineering applications to a dedicated `#eng-hiring` channel — you can override the defaults at the job level.
+
+To set a per-job override:
+
+1. Open the job's detail page and click the **Settings** tab.
+2. Scroll to **Notifications** and toggle **Use custom notification rules** on.
+3. Select the Slack channel and email recipients specific to this job.
+4. Save your changes.
+
+Per-job overrides take precedence over both team-level rules and individual user preferences for events related to that job.
+
+## Unsubscribe from specific notifications
+
+If you're receiving notifications you no longer need, you can unsubscribe without affecting your teammates:
+
+- **Email** — click the **Unsubscribe** link at the bottom of any notification email, or go to **Settings → Profile → Notification preferences** and toggle off the relevant events.
+- **Slack** — Slack notifications are team-level settings. If you don't want to see them in a channel, ask your Admin to adjust the team rules or create a per-job override that routes to a different channel.
